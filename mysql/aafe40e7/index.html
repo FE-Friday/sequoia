@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>MySQL的事务 | 东方红杉の技术笔记</title>
+    <meta name="generator" content="VuePress 1.9.10">
+    <link rel="icon" href="/sequoia/logo.jpg">
+    <meta name="description" content="">
+    
+    <link rel="preload" href="/sequoia/assets/css/0.styles.824567c0.css" as="style"><link rel="preload" href="/sequoia/assets/js/app.d319564d.js" as="script"><link rel="preload" href="/sequoia/assets/js/2.b263069c.js" as="script"><link rel="preload" href="/sequoia/assets/js/1.6f4653e4.js" as="script"><link rel="preload" href="/sequoia/assets/js/39.75eb4827.js" as="script"><link rel="prefetch" href="/sequoia/assets/js/10.1cc7d531.js"><link rel="prefetch" href="/sequoia/assets/js/11.3bc24a88.js"><link rel="prefetch" href="/sequoia/assets/js/12.e70aed75.js"><link rel="prefetch" href="/sequoia/assets/js/13.2d33abac.js"><link rel="prefetch" href="/sequoia/assets/js/14.7c7252fc.js"><link rel="prefetch" href="/sequoia/assets/js/15.3234d58c.js"><link rel="prefetch" href="/sequoia/assets/js/16.608f367a.js"><link rel="prefetch" href="/sequoia/assets/js/17.4ca8e0b3.js"><link rel="prefetch" href="/sequoia/assets/js/18.e826d6da.js"><link rel="prefetch" href="/sequoia/assets/js/19.66b71abb.js"><link rel="prefetch" href="/sequoia/assets/js/20.5ad9e4da.js"><link rel="prefetch" href="/sequoia/assets/js/21.ecf63074.js"><link rel="prefetch" href="/sequoia/assets/js/22.3de13547.js"><link rel="prefetch" href="/sequoia/assets/js/23.9cacbf6e.js"><link rel="prefetch" href="/sequoia/assets/js/24.1c04ae68.js"><link rel="prefetch" href="/sequoia/assets/js/25.3b01f0d0.js"><link rel="prefetch" href="/sequoia/assets/js/26.ef8fb8e5.js"><link rel="prefetch" href="/sequoia/assets/js/27.efd52dde.js"><link rel="prefetch" href="/sequoia/assets/js/28.52dba54b.js"><link rel="prefetch" href="/sequoia/assets/js/29.9ddf7ab6.js"><link rel="prefetch" href="/sequoia/assets/js/3.6a603635.js"><link rel="prefetch" href="/sequoia/assets/js/30.e1fb9324.js"><link rel="prefetch" href="/sequoia/assets/js/31.c769b998.js"><link rel="prefetch" href="/sequoia/assets/js/32.abd443cd.js"><link rel="prefetch" href="/sequoia/assets/js/33.ae0cb87f.js"><link rel="prefetch" href="/sequoia/assets/js/34.02525cba.js"><link rel="prefetch" href="/sequoia/assets/js/35.4aa1a3a6.js"><link rel="prefetch" href="/sequoia/assets/js/36.5ca7b4b5.js"><link rel="prefetch" href="/sequoia/assets/js/37.16352b98.js"><link rel="prefetch" href="/sequoia/assets/js/38.7886101f.js"><link rel="prefetch" href="/sequoia/assets/js/4.c8fc5a5c.js"><link rel="prefetch" href="/sequoia/assets/js/40.ea586f49.js"><link rel="prefetch" href="/sequoia/assets/js/41.e286d3bd.js"><link rel="prefetch" href="/sequoia/assets/js/42.d5069eec.js"><link rel="prefetch" href="/sequoia/assets/js/43.ec4bc2ae.js"><link rel="prefetch" href="/sequoia/assets/js/44.a38c4a67.js"><link rel="prefetch" href="/sequoia/assets/js/45.19bdc212.js"><link rel="prefetch" href="/sequoia/assets/js/46.e2c48ef6.js"><link rel="prefetch" href="/sequoia/assets/js/47.34fea06e.js"><link rel="prefetch" href="/sequoia/assets/js/48.0f70e959.js"><link rel="prefetch" href="/sequoia/assets/js/49.14212334.js"><link rel="prefetch" href="/sequoia/assets/js/5.a102cd80.js"><link rel="prefetch" href="/sequoia/assets/js/50.10cebe56.js"><link rel="prefetch" href="/sequoia/assets/js/51.fc931c34.js"><link rel="prefetch" href="/sequoia/assets/js/52.428c0419.js"><link rel="prefetch" href="/sequoia/assets/js/53.b09ba9be.js"><link rel="prefetch" href="/sequoia/assets/js/6.60ce1015.js"><link rel="prefetch" href="/sequoia/assets/js/7.e6aa0f35.js"><link rel="prefetch" href="/sequoia/assets/js/vendors~docsearch.a19b1ae9.js">
+    <link rel="stylesheet" href="/sequoia/assets/css/0.styles.824567c0.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/sequoia/" class="home-link router-link-active"><img src="/sequoia/logo.jpg" alt="东方红杉の技术笔记" class="logo"> <span class="site-name can-hide">东方红杉の技术笔记</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/sequoia/" class="nav-link">
+  首页
+</a></div><div class="nav-item"><a href="/sequoia/blogs/" class="nav-link">
+  博客
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Notes" class="dropdown-title"><span class="title">前端&amp;笔记</span> <span class="arrow down"></span></button> <button type="button" aria-label="Notes" class="mobile-dropdown-title"><span class="title">前端&amp;笔记</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/sequoia/frontend/vuejs/1.vuejs快速入门.html" class="nav-link">
+  vuejs
+</a></li><li class="dropdown-item"><!----> <a href="/sequoia/frontend/reactjs/1.reactjs快速入门.html" class="nav-link">
+  reactjs
+</a></li><li class="dropdown-item"><!----> <a href="/sequoia/frontend/tutorial/1.通过命令行创建uni-app项目.html" class="nav-link">
+  笔记
+</a></li><li class="dropdown-item"><!----> <a href="/sequoia/frontend/mysql/1.MySQL语法入门.html" class="nav-link">
+  mysql
+</a></li></ul></div></div><div class="nav-item"><a href="/sequoia/macos/1.在MacOS上安装NVM管理Node版本.html" class="nav-link">
+  Mac
+</a></div><div class="nav-item"><a href="/sequoia/nav/" class="nav-link">
+  导航
+</a></div><div class="nav-item"><a href="/sequoia/about/" class="nav-link">
+  关于
+</a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/sequoia/" class="nav-link">
+  首页
+</a></div><div class="nav-item"><a href="/sequoia/blogs/" class="nav-link">
+  博客
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Notes" class="dropdown-title"><span class="title">前端&amp;笔记</span> <span class="arrow down"></span></button> <button type="button" aria-label="Notes" class="mobile-dropdown-title"><span class="title">前端&amp;笔记</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/sequoia/frontend/vuejs/1.vuejs快速入门.html" class="nav-link">
+  vuejs
+</a></li><li class="dropdown-item"><!----> <a href="/sequoia/frontend/reactjs/1.reactjs快速入门.html" class="nav-link">
+  reactjs
+</a></li><li class="dropdown-item"><!----> <a href="/sequoia/frontend/tutorial/1.通过命令行创建uni-app项目.html" class="nav-link">
+  笔记
+</a></li><li class="dropdown-item"><!----> <a href="/sequoia/frontend/mysql/1.MySQL语法入门.html" class="nav-link">
+  mysql
+</a></li></ul></div></div><div class="nav-item"><a href="/sequoia/macos/1.在MacOS上安装NVM管理Node版本.html" class="nav-link">
+  Mac
+</a></div><div class="nav-item"><a href="/sequoia/nav/" class="nav-link">
+  导航
+</a></div><div class="nav-item"><a href="/sequoia/about/" class="nav-link">
+  关于
+</a></div> <!----></nav>  <ul class="sidebar-links"><li><section class="sidebar-group collapsable depth-0"><a href="/sequoia/frontend/mysql" class="sidebar-heading clickable open"><span>MySQL</span> <span class="arrow down"></span></a> <ul class="sidebar-links sidebar-group-items"><li><a href="/sequoia/mysql/4e80df24/" class="sidebar-link">MySQL语法入门</a></li><li><a href="/sequoia/mysql/37f34c6/" class="sidebar-link">MySQL语法的增删改查</a></li><li><a href="/sequoia/mysql/e998a564/" class="sidebar-link">MySQL语法中的子句</a></li><li><a href="/sequoia/mysql/77a7ca23/" class="sidebar-link">MySQL查询的排序与分组</a></li><li><a href="/sequoia/mysql/db66099b/" class="sidebar-link">MySQL查询的UNION和连接</a></li><li><a href="/sequoia/mysql/f16a2c97/" class="sidebar-link">MySQL临时表的使用</a></li><li><a href="/sequoia/mysql/aafe40e7/" aria-current="page" class="active sidebar-link">MySQL的事务</a></li><li><a href="/sequoia/mysql/364228b/" class="sidebar-link">MySQL的ALTER命令</a></li><li><a href="/sequoia/mysql/bc70c6c8/" class="sidebar-link">MySQL处理重复数据</a></li><li><a href="/sequoia/mysql/d4265aef/" class="sidebar-link">MySQL错误整理</a></li><li><a href="/sequoia/mysql/4c00e622/" class="sidebar-link">MySQL的索引使用</a></li><li><a href="/sequoia/mysql/8edb8be5/" class="sidebar-link">MySQL数据类型</a></li></ul></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h2 id="事务简介"><a href="#事务简介" class="header-anchor">#</a> 事务简介</h2> <p>MySQL 事务主要用于处理操作量大，复杂度高的数据。</p> <p>比如说，在人员管理系统中，你删除一个人员，你既需要删除人员的基本资料，也要删除和该人员相关的信息，如信箱，文章等等，这样，这些数据库操作语句就构成一个事务！</p> <div class="custom-block tip"><p class="custom-block-title">TIP</p> <ul><li>在 MySQL 中只有使用了 Innodb 数据库引擎的数据库或表才支持事务。</li> <li>事务处理可以用来维护数据库的完整性，保证成批的 SQL 语句要么全部执行，要么全部不执行。</li> <li>事务用来管理 insert, update, delete 语句</li></ul></div> <p><strong>一般来说，事务是必须满足4个条件（ACID）</strong></p> <ul><li><strong>原子性（Atomicity，或称不可分割性）</strong></li></ul> <p>一个事务（transaction）中的所有操作，要么全部完成，要么全部不完成，不会结束在中间某个环节。事务在执行过程中发生错误，会被回滚（Rollback）到事务开始前的状态，就像这个事务从来没有执行过一样。</p> <ul><li><strong>一致性（Consistency）</strong></li></ul> <p>在事务开始之前和事务结束以后，数据库的完整性没有被破坏。这表示写入的资料必须完全符合所有的预设规则，这包含资料的精确度、串联性以及后续数据库可以自发性地完成预定的工作。</p> <ul><li><strong>隔离性（Isolation，又称独立性）</strong></li></ul> <p>数据库允许多个并发事务同时对其数据进行读写和修改的能力，隔离性可以防止多个事务并发执行时由于交叉执行而导致数据的不一致。事务隔离分为不同级别，包括读未提交（Read uncommitted）、读提交（read committed）、可重复读（repeatable read）和串行化（Serializable）。</p> <ul><li><strong>持久性（Durability）</strong></li></ul> <p>事务处理结束后，对数据的修改就是永久的，即便系统故障也不会丢失。</p> <div class="custom-block tip"><p class="custom-block-title">TIP</p> <p>在 MySQL 命令行的默认设置下，事务都是自动提交的，即执行 SQL 语句后就会马上执行 COMMIT 操作。因此要显式地开启一个事务务须使用命令 BEGIN 或 START TRANSACTION，或者执行命令 SET AUTOCOMMIT=0，用来禁止使用当前会话的自动提交。</p></div> <h2 id="事务控制语句"><a href="#事务控制语句" class="header-anchor">#</a> 事务控制语句</h2> <div class="custom-block tip"><p class="custom-block-title">TIP</p> <ul><li>BEGIN 或 START TRANSACTION 显式地开启一个事务</li> <li>COMMIT 也可以使用 COMMIT WORK，不过二者是等价的。COMMIT 会提交事务，并使已对数据库进行的所有修改成为永久性的</li> <li>ROLLBACK 也可以使用 ROLLBACK WORK，不过二者是等价的。回滚会结束用户的事务，并撤销正在进行的所有未提交的修改；</li> <li>SAVEPOINT identifier，SAVEPOINT 允许在事务中创建一个保存点，一个事务中可以有多个 SAVEPOINT</li> <li>RELEASE SAVEPOINT identifier 删除一个事务的保存点，当没有指定的保存点时，执行该语句会抛出一个异常</li> <li>ROLLBACK TO identifier 把事务回滚到标记点</li> <li>SET TRANSACTION 用来设置事务的隔离级别。InnoDB 存储引擎提供事务的隔离级别有READ UNCOMMITTED、READ COMMITTED、REPEATABLE READ 和 SERIALIZABLE</li></ul></div> <p><strong>MYSQL 事务处理主要有两种方法：</strong></p> <p>1、用 BEGIN, ROLLBACK, COMMIT来实现</p> <ul><li>BEGIN 开始一个事务</li> <li>ROLLBACK 事务回滚</li> <li>COMMIT 事务确认</li></ul> <p>2、直接用 SET 来改变 MySQL 的自动提交模式:</p> <ul><li>SET AUTOCOMMIT=0 禁止自动提交</li> <li>SET AUTOCOMMIT=1 开启自动提交</li></ul> <h2 id="实例"><a href="#实例" class="header-anchor">#</a> 实例</h2> <div class="language-bash line-numbers-mode"><pre class="language-bash"><code>mysql<span class="token operator">&gt;</span> use runoob<span class="token punctuation">;</span>
+Database changed
+
+mysql<span class="token operator">&gt;</span> create table runoob_transaction_test<span class="token punctuation">(</span>id int<span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">))</span> <span class="token assign-left variable">engine</span><span class="token operator">=</span>innodb<span class="token punctuation">;</span>
+Query OK, <span class="token number">0</span> rows affected <span class="token punctuation">(</span><span class="token number">0.00</span> sec<span class="token punctuation">)</span>
+
+mysql<span class="token operator">&gt;</span> <span class="token keyword">select</span> * from runoob_transaction_test<span class="token punctuation">;</span>
+Empty <span class="token builtin class-name">set</span> <span class="token punctuation">(</span><span class="token number">0.01</span> sec<span class="token punctuation">)</span>
+
+mysql<span class="token operator">&gt;</span> show tables<span class="token punctuation">;</span>
++-------------------------+
+<span class="token operator">|</span> Tables_in_runoob        <span class="token operator">|</span>
++-------------------------+
+<span class="token operator">|</span> runoob_transaction_test <span class="token operator">|</span>
++-------------------------+
+<span class="token number">1</span> row <span class="token keyword">in</span> <span class="token builtin class-name">set</span> <span class="token punctuation">(</span><span class="token number">0.00</span> sec<span class="token punctuation">)</span>
+
+mysql<span class="token operator">&gt;</span> begin<span class="token punctuation">;</span>
+Query OK, <span class="token number">0</span> rows affected <span class="token punctuation">(</span><span class="token number">0.00</span> sec<span class="token punctuation">)</span>
+
+mysql<span class="token operator">&gt;</span> insert into runoob_transaction_test value<span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+Query OK, <span class="token number">1</span> row affected <span class="token punctuation">(</span><span class="token number">0.00</span> sec<span class="token punctuation">)</span>
+
+mysql<span class="token operator">&gt;</span> insert into runoob_transaction_test value<span class="token punctuation">(</span><span class="token number">6</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+Query OK, <span class="token number">1</span> row affected <span class="token punctuation">(</span><span class="token number">0.00</span> sec<span class="token punctuation">)</span>
+
+mysql<span class="token operator">&gt;</span> commit<span class="token punctuation">;</span>
+Query OK, <span class="token number">0</span> rows affected <span class="token punctuation">(</span><span class="token number">0.00</span> sec<span class="token punctuation">)</span>
+
+mysql<span class="token operator">&gt;</span> <span class="token keyword">select</span> * from runoob_transaction_test<span class="token punctuation">;</span>
++------+
+<span class="token operator">|</span> <span class="token function">id</span>   <span class="token operator">|</span>
++------+
+<span class="token operator">|</span>    <span class="token number">5</span> <span class="token operator">|</span>
+<span class="token operator">|</span>    <span class="token number">6</span> <span class="token operator">|</span>
++------+
+<span class="token number">2</span> rows <span class="token keyword">in</span> <span class="token builtin class-name">set</span> <span class="token punctuation">(</span><span class="token number">0.00</span> sec<span class="token punctuation">)</span>
+
+mysql<span class="token operator">&gt;</span> begin<span class="token punctuation">;</span>
+Query OK, <span class="token number">0</span> rows affected <span class="token punctuation">(</span><span class="token number">0.00</span> sec<span class="token punctuation">)</span>
+
+mysql<span class="token operator">&gt;</span> insert into runoob_transaction_test value<span class="token punctuation">(</span><span class="token number">7</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+Query OK, <span class="token number">1</span> row affected <span class="token punctuation">(</span><span class="token number">0.00</span> sec<span class="token punctuation">)</span>
+
+mysql<span class="token operator">&gt;</span> rollback<span class="token punctuation">;</span>
+Query OK, <span class="token number">0</span> rows affected <span class="token punctuation">(</span><span class="token number">0.00</span> sec<span class="token punctuation">)</span>
+
+mysql<span class="token operator">&gt;</span> <span class="token keyword">select</span> * from runoob_transaction_test<span class="token punctuation">;</span>
++------+
+<span class="token operator">|</span> <span class="token function">id</span>   <span class="token operator">|</span>
++------+
+<span class="token operator">|</span>    <span class="token number">5</span> <span class="token operator">|</span>
+<span class="token operator">|</span>    <span class="token number">6</span> <span class="token operator">|</span>
++------+
+<span class="token number">2</span> rows <span class="token keyword">in</span> <span class="token builtin class-name">set</span> <span class="token punctuation">(</span><span class="token number">0.00</span> sec<span class="token punctuation">)</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br><span class="line-number">48</span><br><span class="line-number">49</span><br><span class="line-number">50</span><br><span class="line-number">51</span><br><span class="line-number">52</span><br><span class="line-number">53</span><br><span class="line-number">54</span><br><span class="line-number">55</span><br></div></div></div> <footer class="page-edit"><!----> <div class="last-updated"><span class="prefix">Last Updated:</span> <span class="time">2 days ago</span></div></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/sequoia/mysql/f16a2c97/" class="prev">
+        MySQL临时表的使用
+      </a></span> <span class="next"><a href="/sequoia/mysql/364228b/">
+        MySQL的ALTER命令
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"><!----><!----></div></div>
+    <script src="/sequoia/assets/js/app.d319564d.js" defer></script><script src="/sequoia/assets/js/2.b263069c.js" defer></script><script src="/sequoia/assets/js/1.6f4653e4.js" defer></script><script src="/sequoia/assets/js/39.75eb4827.js" defer></script>
+  </body>
+</html>

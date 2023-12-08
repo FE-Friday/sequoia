@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>MySQL的索引使用 | 东方红杉の技术笔记</title>
+    <meta name="generator" content="VuePress 1.9.10">
+    <link rel="icon" href="/sequoia/logo.jpg">
+    <meta name="description" content="">
+    
+    <link rel="preload" href="/sequoia/assets/css/0.styles.824567c0.css" as="style"><link rel="preload" href="/sequoia/assets/js/app.d319564d.js" as="script"><link rel="preload" href="/sequoia/assets/js/2.b263069c.js" as="script"><link rel="preload" href="/sequoia/assets/js/1.6f4653e4.js" as="script"><link rel="preload" href="/sequoia/assets/js/33.ae0cb87f.js" as="script"><link rel="prefetch" href="/sequoia/assets/js/10.1cc7d531.js"><link rel="prefetch" href="/sequoia/assets/js/11.3bc24a88.js"><link rel="prefetch" href="/sequoia/assets/js/12.e70aed75.js"><link rel="prefetch" href="/sequoia/assets/js/13.2d33abac.js"><link rel="prefetch" href="/sequoia/assets/js/14.7c7252fc.js"><link rel="prefetch" href="/sequoia/assets/js/15.3234d58c.js"><link rel="prefetch" href="/sequoia/assets/js/16.608f367a.js"><link rel="prefetch" href="/sequoia/assets/js/17.4ca8e0b3.js"><link rel="prefetch" href="/sequoia/assets/js/18.e826d6da.js"><link rel="prefetch" href="/sequoia/assets/js/19.66b71abb.js"><link rel="prefetch" href="/sequoia/assets/js/20.5ad9e4da.js"><link rel="prefetch" href="/sequoia/assets/js/21.ecf63074.js"><link rel="prefetch" href="/sequoia/assets/js/22.3de13547.js"><link rel="prefetch" href="/sequoia/assets/js/23.9cacbf6e.js"><link rel="prefetch" href="/sequoia/assets/js/24.1c04ae68.js"><link rel="prefetch" href="/sequoia/assets/js/25.3b01f0d0.js"><link rel="prefetch" href="/sequoia/assets/js/26.ef8fb8e5.js"><link rel="prefetch" href="/sequoia/assets/js/27.efd52dde.js"><link rel="prefetch" href="/sequoia/assets/js/28.52dba54b.js"><link rel="prefetch" href="/sequoia/assets/js/29.9ddf7ab6.js"><link rel="prefetch" href="/sequoia/assets/js/3.6a603635.js"><link rel="prefetch" href="/sequoia/assets/js/30.e1fb9324.js"><link rel="prefetch" href="/sequoia/assets/js/31.c769b998.js"><link rel="prefetch" href="/sequoia/assets/js/32.abd443cd.js"><link rel="prefetch" href="/sequoia/assets/js/34.02525cba.js"><link rel="prefetch" href="/sequoia/assets/js/35.4aa1a3a6.js"><link rel="prefetch" href="/sequoia/assets/js/36.5ca7b4b5.js"><link rel="prefetch" href="/sequoia/assets/js/37.16352b98.js"><link rel="prefetch" href="/sequoia/assets/js/38.7886101f.js"><link rel="prefetch" href="/sequoia/assets/js/39.75eb4827.js"><link rel="prefetch" href="/sequoia/assets/js/4.c8fc5a5c.js"><link rel="prefetch" href="/sequoia/assets/js/40.ea586f49.js"><link rel="prefetch" href="/sequoia/assets/js/41.e286d3bd.js"><link rel="prefetch" href="/sequoia/assets/js/42.d5069eec.js"><link rel="prefetch" href="/sequoia/assets/js/43.ec4bc2ae.js"><link rel="prefetch" href="/sequoia/assets/js/44.a38c4a67.js"><link rel="prefetch" href="/sequoia/assets/js/45.19bdc212.js"><link rel="prefetch" href="/sequoia/assets/js/46.e2c48ef6.js"><link rel="prefetch" href="/sequoia/assets/js/47.34fea06e.js"><link rel="prefetch" href="/sequoia/assets/js/48.0f70e959.js"><link rel="prefetch" href="/sequoia/assets/js/49.14212334.js"><link rel="prefetch" href="/sequoia/assets/js/5.a102cd80.js"><link rel="prefetch" href="/sequoia/assets/js/50.10cebe56.js"><link rel="prefetch" href="/sequoia/assets/js/51.fc931c34.js"><link rel="prefetch" href="/sequoia/assets/js/52.428c0419.js"><link rel="prefetch" href="/sequoia/assets/js/53.b09ba9be.js"><link rel="prefetch" href="/sequoia/assets/js/6.60ce1015.js"><link rel="prefetch" href="/sequoia/assets/js/7.e6aa0f35.js"><link rel="prefetch" href="/sequoia/assets/js/vendors~docsearch.a19b1ae9.js">
+    <link rel="stylesheet" href="/sequoia/assets/css/0.styles.824567c0.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/sequoia/" class="home-link router-link-active"><img src="/sequoia/logo.jpg" alt="东方红杉の技术笔记" class="logo"> <span class="site-name can-hide">东方红杉の技术笔记</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/sequoia/" class="nav-link">
+  首页
+</a></div><div class="nav-item"><a href="/sequoia/blogs/" class="nav-link">
+  博客
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Notes" class="dropdown-title"><span class="title">前端&amp;笔记</span> <span class="arrow down"></span></button> <button type="button" aria-label="Notes" class="mobile-dropdown-title"><span class="title">前端&amp;笔记</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/sequoia/frontend/vuejs/1.vuejs快速入门.html" class="nav-link">
+  vuejs
+</a></li><li class="dropdown-item"><!----> <a href="/sequoia/frontend/reactjs/1.reactjs快速入门.html" class="nav-link">
+  reactjs
+</a></li><li class="dropdown-item"><!----> <a href="/sequoia/frontend/tutorial/1.通过命令行创建uni-app项目.html" class="nav-link">
+  笔记
+</a></li><li class="dropdown-item"><!----> <a href="/sequoia/frontend/mysql/1.MySQL语法入门.html" class="nav-link">
+  mysql
+</a></li></ul></div></div><div class="nav-item"><a href="/sequoia/macos/1.在MacOS上安装NVM管理Node版本.html" class="nav-link">
+  Mac
+</a></div><div class="nav-item"><a href="/sequoia/nav/" class="nav-link">
+  导航
+</a></div><div class="nav-item"><a href="/sequoia/about/" class="nav-link">
+  关于
+</a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/sequoia/" class="nav-link">
+  首页
+</a></div><div class="nav-item"><a href="/sequoia/blogs/" class="nav-link">
+  博客
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Notes" class="dropdown-title"><span class="title">前端&amp;笔记</span> <span class="arrow down"></span></button> <button type="button" aria-label="Notes" class="mobile-dropdown-title"><span class="title">前端&amp;笔记</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/sequoia/frontend/vuejs/1.vuejs快速入门.html" class="nav-link">
+  vuejs
+</a></li><li class="dropdown-item"><!----> <a href="/sequoia/frontend/reactjs/1.reactjs快速入门.html" class="nav-link">
+  reactjs
+</a></li><li class="dropdown-item"><!----> <a href="/sequoia/frontend/tutorial/1.通过命令行创建uni-app项目.html" class="nav-link">
+  笔记
+</a></li><li class="dropdown-item"><!----> <a href="/sequoia/frontend/mysql/1.MySQL语法入门.html" class="nav-link">
+  mysql
+</a></li></ul></div></div><div class="nav-item"><a href="/sequoia/macos/1.在MacOS上安装NVM管理Node版本.html" class="nav-link">
+  Mac
+</a></div><div class="nav-item"><a href="/sequoia/nav/" class="nav-link">
+  导航
+</a></div><div class="nav-item"><a href="/sequoia/about/" class="nav-link">
+  关于
+</a></div> <!----></nav>  <ul class="sidebar-links"><li><section class="sidebar-group collapsable depth-0"><a href="/sequoia/frontend/mysql" class="sidebar-heading clickable open"><span>MySQL</span> <span class="arrow down"></span></a> <ul class="sidebar-links sidebar-group-items"><li><a href="/sequoia/mysql/4e80df24/" class="sidebar-link">MySQL语法入门</a></li><li><a href="/sequoia/mysql/37f34c6/" class="sidebar-link">MySQL语法的增删改查</a></li><li><a href="/sequoia/mysql/e998a564/" class="sidebar-link">MySQL语法中的子句</a></li><li><a href="/sequoia/mysql/77a7ca23/" class="sidebar-link">MySQL查询的排序与分组</a></li><li><a href="/sequoia/mysql/db66099b/" class="sidebar-link">MySQL查询的UNION和连接</a></li><li><a href="/sequoia/mysql/f16a2c97/" class="sidebar-link">MySQL临时表的使用</a></li><li><a href="/sequoia/mysql/aafe40e7/" class="sidebar-link">MySQL的事务</a></li><li><a href="/sequoia/mysql/364228b/" class="sidebar-link">MySQL的ALTER命令</a></li><li><a href="/sequoia/mysql/bc70c6c8/" class="sidebar-link">MySQL处理重复数据</a></li><li><a href="/sequoia/mysql/d4265aef/" class="sidebar-link">MySQL错误整理</a></li><li><a href="/sequoia/mysql/4c00e622/" aria-current="page" class="active sidebar-link">MySQL的索引使用</a></li><li><a href="/sequoia/mysql/8edb8be5/" class="sidebar-link">MySQL数据类型</a></li></ul></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><div class="custom-block tip"><p class="custom-block-title">TIP</p> <p>MySQL 索引类似于书籍的索引，通过存储指向数据行的指针，可以快速定位和访问表中的特定数据。</p> <p>打个比方，<strong>如果合理的设计且使用索引的 MySQL 是一辆兰博基尼的话，那么没有设计和使用索引的 MySQL 就是一个人力三轮车</strong>。</p> <p>拿汉语字典的目录页（索引）打比方，我们可以按拼音、笔画、偏旁部首等排序的目录（索引）快速查找到需要的字。</p></div> <p>MySQL 索引是一种数据结构，用于加快数据库查询的速度和性能。</p> <p>索引分 <strong>单列索引</strong> 和 <strong>组合索引</strong>：</p> <ul><li>单列索引，即一个索引只包含单个列，一个表可以有多个单列索引。</li> <li>组合索引，即一个索引包含多个列。</li></ul> <p>实际上，索引也是一张表，该表保存了主键与索引字段，并指向实体表的记录。</p> <p>索引虽然能够提高查询性能，但也需要注意以下几点：</p> <ul><li>索引需要占用额外的存储空间。</li> <li>对表进行插入、更新和删除操作时，索引需要维护，可能会影响性能。</li> <li>过多或不合理的索引可能会导致性能下降，因此需要谨慎选择和规划索引。</li></ul> <h2 id="普通索引"><a href="#普通索引" class="header-anchor">#</a> 普通索引</h2> <p>索引能够显著提高查询的速度，尤其是在大型表中进行搜索时。通过使用索引，MySQL 可以直接定位到满足查询条件的数据行，而无需逐行扫描整个表。</p> <h3 id="创建索引"><a href="#创建索引" class="header-anchor">#</a> 创建索引</h3> <p>普通索引是最常见的索引类型，用于加速对表中数据的查询。</p> <p>使用 CREATE INDEX 语句可以创建普通索引。</p> <h4 id="语法"><a href="#语法" class="header-anchor">#</a> 语法</h4> <div class="language-bash line-numbers-mode"><pre class="language-bash"><code>CREATE INDEX index_name
+ON table_name <span class="token punctuation">(</span>column1 <span class="token punctuation">[</span>ASC<span class="token operator">|</span>DESC<span class="token punctuation">]</span>, column2 <span class="token punctuation">[</span>ASC<span class="token operator">|</span>DESC<span class="token punctuation">]</span>, <span class="token punctuation">..</span>.<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><div class="custom-block tip"><p class="custom-block-title">TIP</p> <ul><li>CREATE INDEX: 用于创建普通索引的关键字。</li> <li>index_name: 指定要创建的索引的名称。索引名称在表中必须是唯一的。</li> <li>table_name: 指定要在哪个表上创建索引。</li> <li>(column1, column2, ...): 指定要索引的表列名。你可以指定一个或多个列作为索引的组合。这些列的数据类型通常是数值、文本或日期。</li> <li>ASC和DESC（可选）: 用于指定索引的排序顺序。默认情况下，索引以升序（ASC）排序。</li></ul></div> <h2 id="唯一索引"><a href="#唯一索引" class="header-anchor">#</a> 唯一索引</h2> <h2 id="显示索引信息"><a href="#显示索引信息" class="header-anchor">#</a> 显示索引信息</h2></div> <footer class="page-edit"><!----> <div class="last-updated"><span class="prefix">Last Updated:</span> <span class="time">2 days ago</span></div></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/sequoia/mysql/d4265aef/" class="prev">
+        MySQL错误整理
+      </a></span> <span class="next"><a href="/sequoia/mysql/8edb8be5/">
+        MySQL数据类型
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"><!----><!----></div></div>
+    <script src="/sequoia/assets/js/app.d319564d.js" defer></script><script src="/sequoia/assets/js/2.b263069c.js" defer></script><script src="/sequoia/assets/js/1.6f4653e4.js" defer></script><script src="/sequoia/assets/js/33.ae0cb87f.js" defer></script>
+  </body>
+</html>
